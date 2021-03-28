@@ -21,5 +21,5 @@ ELK Stack Folder (Delogstashed)
 ANX Folder
 ----------
 
-Python-Scripts Folder
+Python Scripts Folder
 ---------------------
