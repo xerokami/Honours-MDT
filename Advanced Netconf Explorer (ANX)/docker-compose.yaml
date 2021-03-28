@@ -1,0 +1,6 @@
+tig:
+  image: ciscoie/anx
+  container_name: anx
+  ports:
+    - "9269:9269"
+    - "8080:8080"
