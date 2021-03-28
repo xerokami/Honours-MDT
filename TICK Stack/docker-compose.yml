@@ -1,0 +1,54 @@
+version: "3"
+services:
+    influxdb:
+      image: influxdb:1.7-alpine
+      container_name: influxdb
+      restart: always
+      ports:
+        - 8086:8086
+      volumes:
+        - influxdb-volume:/var/lib/influxdb
+
+    telegraf:
+      image: telegraf:1.13-alpine
+      container_name: telegraf
+      restart: always
+      ports:
+        - 57500:57500
+      volumes:
+        - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      depends_on:
+        - influxdb
+
+    chronograf:
+      image: chronograf:1.7-alpine
+      container_name: chronograf
+      restart: always
+      ports:
+        - 8888:8888
+      volumes:
+        - chronograf-volume:/var/lib/chronograf
+      depends_on:
+        - influxdb
+      command: ["--influxdb-url=http://influxdb:8086"]
+
+    kapacitor:
+      image: kapacitor:1.5-alpine
+      container_name: kapacitor
+      restart: always
+      ports:
+        - 9092:9092
+      volumes:
+        - kapacitor-volume:/var/lib/kapacitor
+      depends_on:
+        - influxdb
+      environment:
+        - KAPACITOR_INFLUXDB_0_URLS_0=http://influxdb:8086
+
+volumes:
+  influxdb-volume:
+    external: true
+  chronograf-volume:
+    external: true
+  kapacitor-volume:
+    external: true
