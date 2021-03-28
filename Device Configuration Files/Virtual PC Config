@@ -1,0 +1,22 @@
+PC1 Device Info
+----------------------------
+OS - Linux Ubuntu 18.04
+RAM - 2GB
+CPU - 1
+IP - 192.168.10.10
+Primary Function - Packet Generator (Using NPING)
+
+PC2 Device Info
+----------------------------
+OS - Eve-NG VPC
+IP - 192.168.20.10
+
+PC3 Device Info
+----------------------------
+OS - Eve-NG VPC
+IP - 192.168.30.10
+
+PC4 Device Info
+----------------------------
+OS - Eve-NG VPC
+IP - 192.168.40.10
