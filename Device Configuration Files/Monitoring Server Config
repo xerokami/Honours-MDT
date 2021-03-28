@@ -1,0 +1,9 @@
+Device Stats
+------------------------
+OS - Linux Ubuntu Server 20.04.2
+RAM - 5GB
+CPU - 1
+
+Primary Functionality - Host docker containers of telemetry stacks
+                      - Monitor MDT information from CSR 1000v routers with telemetry stacks
+Secondary Functionality - Push scripts to network devices within LAN (Used to automate MDT configuration and inject routes into devices)
