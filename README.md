@@ -2,7 +2,7 @@
 
 Configuration Files Folder
 ---------------------------
-Contains config files for all devices within topology if required.
+Contains config files for all devices within topology.
 
 Devices include:
 - Core-R1 + Core-R2
