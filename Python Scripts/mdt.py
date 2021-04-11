@@ -15,9 +15,9 @@ print("Which MDT stack do you want to use? ")
 mdt = input("[TICK] or [ELK] ")
 
 if mdt.lower() == "tick":
-    mdt = config.mdt_tick
+    mdt_setup = config.mdt_tick
 elif mdt.lower() == "elk":
-    mdt = config.mdt_elk
+    mdt_setup = config.mdt_elk
 
 user = config.user
 secret = config.secret
@@ -31,83 +31,117 @@ c = pm.invoke_shell()
 def global_config(c):
     c.send("conf t\n")
 
-def device_health(c, option, mdt, ip_addr, yang_xpath):
-    if option.lower() == "create":
+def device_health(c, option, mdt, mdt_setup, ip_addr, yang_xpath):
+    if option.lower() == "create" and mdt.lower() == "tick":
         print("Creating telemetry subscriptions...")
         c.send("telemetry ietf sub 101\n")
         c.send(yang_xpath[0])
-        c.send(mdt.strip() + "\n")
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
         c.send("telemetry ietf sub 102\n")
         c.send(yang_xpath[1])
-        c.send(mdt.strip() + "\n")
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
-    elif option.lower() == "remove":
+    elif option.lower() == "create" and mdt.lower() == "elk":
+        print("Creating telemetry subscriptions...")
+        c.send("telemetry ietf sub 201\n")
+        c.send(yang_xpath[0])
+        c.send(mdt_setup.strip() + "\n")
+        c.send("source-address {0}\n".format(ip_addr))
+        time.sleep(0.5)
+        c.send("telemetry ietf sub 202\n")
+        c.send(yang_xpath[1])
+        c.send(mdt_setup.strip() + "\n")
+        c.send("source-address {0}\n".format(ip_addr))
+        time.sleep(0.5)
+    elif option.lower() == "remove" and mdt.lower() == "tick":
         print("Removing telemetry subscriptions...")
         c.send("no telemetry ietf sub 101\n")
         c.send("no telemetry ietf sub 102\n")
+    elif option.lower() == "remove" and mdt.lower() == "elk":
+        print("Removing telemetry subscriptions...")
+        c.send("no telemetry ietf sub 201\n")
+        c.send("no telemetry ietf sub 202\n")
 
-def int_statistics(c, option, mdt, ip_addr, yang_xpath):
-    if option.lower() == "create":
+def int_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath):
+    if option.lower() == "create" and mdt.lower() == "tick":
         print("Creating telemetry subscriptions...")
         c.send("telemetry ietf sub 111\n")
         c.send(yang_xpath[2])
-        c.send(mdt.strip() + "\n")
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
-        c.send("telemetry ietf sub 112\n")
-        c.send(yang_xpath[3])
-        c.send(mdt.strip() + "\n")
+    elif option.lower() == "create" and mdt.lower() == "elk":
+        print("Creating telemetry subscriptions...")
+        c.send("telemetry ietf sub 211\n")
+        c.send(yang_xpath[2])
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
-    elif option.lower() == "remove":
+    elif option.lower() == "remove" and mdt.lower() == "tick":
         print("Removing telemetry subscriptions...")
         c.send("no telemetry ietf sub 111\n")
-        c.send("no telemetry ietf sub 112\n")
+    elif option.lower() == "remove" and mdt.lower() == "elk":
+        print("Removing telemetry subscriptions...")
+        c.send("no telemetry ietf sub 211\n")
 
-def ospf_statistics(c, option, mdt, ip_addr, yang_xpath):
-    if option.lower() == "create":
+def ospf_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath):
+    if option.lower() == "create" and mdt.lower() == "tick":
         print("Creating telemetry subscriptions...")
         c.send("telemetry ietf sub 121\n")
-        c.send(yang_xpath[4])
-        c.send(mdt.strip() + "\n")
+        c.send(yang_xpath[3])
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
-    elif option.lower() == "remove":
+    elif option.lower() == "create" and mdt.lower() == "elk":
+        print("Creating telemetry subscriptions...")
+        c.send("telemetry ietf sub 221\n")
+        c.send(yang_xpath[3])
+        c.send(mdt_setup.strip() + "\n")
+        c.send("source-address {0}\n".format(ip_addr))
+        time.sleep(0.5)
+    elif option.lower() == "remove" and mdt.lower() == "tick":
         print("Removing telemetry subscriptions...")
         c.send("no telemetry ietf sub 121\n")
+    elif option.lower() == "remove" and mdt.lower() == "elk":
+        print("Removing telemetry subscriptions...")
+        c.send("no telemetry ietf sub 221\n")
 
-def bgp_statistics(c, option, mdt, ip_addr, yang_xpath):
-    if option.lower() == "create":
+def bgp_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath):
+    if option.lower() == "create" and mdt.lower() == "tick":
         print("Creating telemetry subscriptions...")
         c.send("telemetry ietf sub 131\n")
-        c.send(yang_xpath[5])
-        c.send(mdt.strip() + "\n")
+        c.send(yang_xpath[4])
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
         c.send("telemetry ietf sub 132\n")
-        c.send(yang_xpath[6])
-        c.send(mdt.strip() + "\n")
+        c.send(yang_xpath[5])
+        c.send(mdt_setup.strip() + "\n")
         c.send("source-address {0}\n".format(ip_addr))
         time.sleep(0.5)
-    elif option.lower() == "remove":
+    elif option.lower() == "create" and mdt.lower() == "elk":
+        print("Creating telemetry subscriptions...")
+        c.send("telemetry ietf sub 231\n")
+        c.send(yang_xpath[4])
+        c.send(mdt_setup.strip() + "\n")
+        c.send("source-address {0}\n".format(ip_addr))
+        time.sleep(0.5)
+        c.send("telemetry ietf sub 232\n")
+        c.send(yang_xpath[5])
+        c.send(mdt_setup.strip() + "\n")
+        c.send("source-address {0}\n".format(ip_addr))
+        time.sleep(0.5)
+    elif option.lower() == "remove" and mdt.lower() == "tick":
         print("Removing telemetry subscriptions...")
         c.send("no telemetry ietf sub 131\n")
         c.send("no telemetry ietf sub 132\n")
-
-def mdt_statistics(c, option, mdt, ip_addr, yang_xpath):
-    if option.lower() == "create":
-        print("Creating telemetry subscriptions...")
-        c.send("telemetry ietf sub 141\n")
-        c.send(yang_xpath[7])
-        c.send(mdt.strip() + "\n")
-        c.send("source-address {0}\n".format(ip_addr))
-        time.sleep(0.5)
-    elif option.lower() == "remove":
+    elif option.lower() == "remove" and mdt.lower() == "elk":
         print("Removing telemetry subscriptions...")
-        c.send("no telemetry ietf sub 141\n")
+        c.send("no telemetry ietf sub 231\n")
+        c.send("no telemetry ietf sub 232\n")
 
 def exit(c):
     c.send("end\n")
@@ -130,21 +164,18 @@ while True:
         [2]Interface statistics
         [3]OSPF device statistics 
         [4]BGP device statistics
-        [5]MDT subscription statistics
         """)
     choice = int(input("Enter your choice: "))
     time.sleep(0.5)
 
     global_config(c)
     if choice == 1:
-        device_health(c, option, mdt, ip_addr, yang_xpath)
+        device_health(c, option, mdt, mdt_setup, ip_addr, yang_xpath)
     elif choice == 2:
-        int_statistics(c, option, mdt, ip_addr, yang_xpath)
+        int_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath)
     elif choice == 3:
-        ospf_statistics(c, option, mdt, ip_addr, yang_xpath)
+        ospf_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath)
     elif choice == 4:
-        bgp_statistics(c, option, mdt, ip_addr, yang_xpath)
-    elif choice == 5:
-        mdt_statistics(c, option, mdt, ip_addr, yang_xpath)
+        bgp_statistics(c, option, mdt, mdt_setup, ip_addr, yang_xpath)
     else:
         print("Invalid choice!")
