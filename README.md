@@ -1,5 +1,9 @@
 # Honours-MDT
 
+About
+-----
+Organized collection of files used for my honours project to complete my BSc Cybersecurity and Networking degree.
+
 EVE-NG Topology
 ---------------
 ![LAN Topology](/Topology.png)
