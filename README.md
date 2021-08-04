@@ -2,7 +2,7 @@
 
 About
 -----
-Organized collection of files used for my honours project to complete my BSc Cybersecurity and Networking degree.
+Organized collection of files used for my honours project to complete my BSc Cyber Security and Networking degree.
 
 EVE-NG Topology
 ---------------
